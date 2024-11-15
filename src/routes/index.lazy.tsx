@@ -1,6 +1,10 @@
-import { createLazyFileRoute } from "@tanstack/react-router";
-import App from "../App";
+import { createLazyFileRoute } from '@tanstack/react-router'
+import MainLayout from '../layouts/MainLayout'
 
-export const Route = createLazyFileRoute("/")({
-  component: App,
-});
+export const Route = createLazyFileRoute('/')({
+  component: HomePage,
+})
+
+function HomePage() {
+  return <MainLayout />
+}

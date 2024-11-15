@@ -16,17 +16,36 @@ import { Route as rootRoute } from './routes/__root'
 
 // Create Virtual Routes
 
+const AlbumLazyImport = createFileRoute('/album')()
 const IndexLazyImport = createFileRoute('/')()
+const SsoCallbackIndexLazyImport = createFileRoute('/sso-callback/')()
 const SignUpIndexLazyImport = createFileRoute('/sign-up/')()
 const SignInIndexLazyImport = createFileRoute('/sign-in/')()
+const AuthCallbackIndexLazyImport = createFileRoute('/auth-callback/')()
+const AlbumIndexLazyImport = createFileRoute('/album/')()
+const AdminIndexLazyImport = createFileRoute('/admin/')()
 
 // Create/Update Routes
+
+const AlbumLazyRoute = AlbumLazyImport.update({
+  id: '/album',
+  path: '/album',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/album.index').then((d) => d.Route))
 
 const IndexLazyRoute = IndexLazyImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const SsoCallbackIndexLazyRoute = SsoCallbackIndexLazyImport.update({
+  id: '/sso-callback/',
+  path: '/sso-callback/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/sso-callback/index.lazy').then((d) => d.Route),
+)
 
 const SignUpIndexLazyRoute = SignUpIndexLazyImport.update({
   id: '/sign-up/',
@@ -40,6 +59,26 @@ const SignInIndexLazyRoute = SignInIndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/sign-in/index.lazy').then((d) => d.Route))
 
+const AuthCallbackIndexLazyRoute = AuthCallbackIndexLazyImport.update({
+  id: '/auth-callback/',
+  path: '/auth-callback/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/auth-callback/index.lazy').then((d) => d.Route),
+)
+
+const AlbumIndexLazyRoute = AlbumIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AlbumLazyRoute,
+} as any).lazy(() => import('./routes/album').then((d) => d.Route))
+
+const AdminIndexLazyRoute = AdminIndexLazyImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/admin/index.lazy').then((d) => d.Route))
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -49,6 +88,34 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/album': {
+      id: '/album'
+      path: '/album'
+      fullPath: '/album'
+      preLoaderRoute: typeof AlbumLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/album/': {
+      id: '/album/'
+      path: '/'
+      fullPath: '/album/'
+      preLoaderRoute: typeof AlbumIndexLazyImport
+      parentRoute: typeof AlbumLazyImport
+    }
+    '/auth-callback/': {
+      id: '/auth-callback/'
+      path: '/auth-callback'
+      fullPath: '/auth-callback'
+      preLoaderRoute: typeof AuthCallbackIndexLazyImport
       parentRoute: typeof rootRoute
     }
     '/sign-in/': {
@@ -65,49 +132,114 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignUpIndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/sso-callback/': {
+      id: '/sso-callback/'
+      path: '/sso-callback'
+      fullPath: '/sso-callback'
+      preLoaderRoute: typeof SsoCallbackIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
 // Create and export the route tree
 
+interface AlbumLazyRouteChildren {
+  AlbumIndexLazyRoute: typeof AlbumIndexLazyRoute
+}
+
+const AlbumLazyRouteChildren: AlbumLazyRouteChildren = {
+  AlbumIndexLazyRoute: AlbumIndexLazyRoute,
+}
+
+const AlbumLazyRouteWithChildren = AlbumLazyRoute._addFileChildren(
+  AlbumLazyRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/album': typeof AlbumLazyRouteWithChildren
+  '/admin': typeof AdminIndexLazyRoute
+  '/album/': typeof AlbumIndexLazyRoute
+  '/auth-callback': typeof AuthCallbackIndexLazyRoute
   '/sign-in': typeof SignInIndexLazyRoute
   '/sign-up': typeof SignUpIndexLazyRoute
+  '/sso-callback': typeof SsoCallbackIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/admin': typeof AdminIndexLazyRoute
+  '/album': typeof AlbumIndexLazyRoute
+  '/auth-callback': typeof AuthCallbackIndexLazyRoute
   '/sign-in': typeof SignInIndexLazyRoute
   '/sign-up': typeof SignUpIndexLazyRoute
+  '/sso-callback': typeof SsoCallbackIndexLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
+  '/album': typeof AlbumLazyRouteWithChildren
+  '/admin/': typeof AdminIndexLazyRoute
+  '/album/': typeof AlbumIndexLazyRoute
+  '/auth-callback/': typeof AuthCallbackIndexLazyRoute
   '/sign-in/': typeof SignInIndexLazyRoute
   '/sign-up/': typeof SignUpIndexLazyRoute
+  '/sso-callback/': typeof SsoCallbackIndexLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/sign-in' | '/sign-up'
+  fullPaths:
+    | '/'
+    | '/album'
+    | '/admin'
+    | '/album/'
+    | '/auth-callback'
+    | '/sign-in'
+    | '/sign-up'
+    | '/sso-callback'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/sign-in' | '/sign-up'
-  id: '__root__' | '/' | '/sign-in/' | '/sign-up/'
+  to:
+    | '/'
+    | '/admin'
+    | '/album'
+    | '/auth-callback'
+    | '/sign-in'
+    | '/sign-up'
+    | '/sso-callback'
+  id:
+    | '__root__'
+    | '/'
+    | '/album'
+    | '/admin/'
+    | '/album/'
+    | '/auth-callback/'
+    | '/sign-in/'
+    | '/sign-up/'
+    | '/sso-callback/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  AlbumLazyRoute: typeof AlbumLazyRouteWithChildren
+  AdminIndexLazyRoute: typeof AdminIndexLazyRoute
+  AuthCallbackIndexLazyRoute: typeof AuthCallbackIndexLazyRoute
   SignInIndexLazyRoute: typeof SignInIndexLazyRoute
   SignUpIndexLazyRoute: typeof SignUpIndexLazyRoute
+  SsoCallbackIndexLazyRoute: typeof SsoCallbackIndexLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  AlbumLazyRoute: AlbumLazyRouteWithChildren,
+  AdminIndexLazyRoute: AdminIndexLazyRoute,
+  AuthCallbackIndexLazyRoute: AuthCallbackIndexLazyRoute,
   SignInIndexLazyRoute: SignInIndexLazyRoute,
   SignUpIndexLazyRoute: SignUpIndexLazyRoute,
+  SsoCallbackIndexLazyRoute: SsoCallbackIndexLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -121,18 +253,41 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/album",
+        "/admin/",
+        "/auth-callback/",
         "/sign-in/",
-        "/sign-up/"
+        "/sign-up/",
+        "/sso-callback/"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
+    },
+    "/album": {
+      "filePath": "album.lazy.tsx",
+      "children": [
+        "/album/"
+      ]
+    },
+    "/admin/": {
+      "filePath": "admin/index.lazy.tsx"
+    },
+    "/album/": {
+      "filePath": "album/index.lazy.tsx",
+      "parent": "/album"
+    },
+    "/auth-callback/": {
+      "filePath": "auth-callback/index.lazy.tsx"
     },
     "/sign-in/": {
       "filePath": "sign-in/index.lazy.tsx"
     },
     "/sign-up/": {
       "filePath": "sign-up/index.lazy.tsx"
+    },
+    "/sso-callback/": {
+      "filePath": "sso-callback/index.lazy.tsx"
     }
   }
 }

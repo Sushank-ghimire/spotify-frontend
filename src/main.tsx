@@ -1,15 +1,12 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import {
-  RouterProvider,
-  createRouter,
-} from "@tanstack/react-router";
+import { RouterProvider, createRouter } from "@tanstack/react-router";
 import "./index.css";
 
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ClerkProvider } from "@clerk/clerk-react";
+import AuthProvider from "./providers/AuthProvider";
 
 // Create a new router instance
 const router = createRouter({ routeTree });
@@ -20,9 +17,6 @@ declare module "@tanstack/react-router" {
     router: typeof router;
   }
 }
-
-// Tanstack query
-const queryClient = new QueryClient();
 
 // Clerk Client
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -38,9 +32,9 @@ if (!rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
-        <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
-        </QueryClientProvider>
+          <AuthProvider>
+            <RouterProvider router={router} />
+          </AuthProvider>
       </ClerkProvider>
     </StrictMode>
   );
