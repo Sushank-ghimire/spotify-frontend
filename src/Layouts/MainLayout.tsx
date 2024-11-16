@@ -1,14 +1,15 @@
 import {
+  ActivityBar,
+  LeftSideBar,
+  ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-  Topbar,
 } from "../components/Export";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const isMobile = false;
   return (
     <div className="h-screen overflow-x-hidden w-screen bg-black text-white">
-      <Topbar />
       <ResizablePanelGroup
         className="h-full flex-1 overflow-hidden p-2"
         direction="horizontal"
@@ -17,15 +18,19 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         <ResizablePanel
           defaultSize={20}
           minSize={isMobile ? 0 : 10}
-          maxSize={30}
+          maxSize={25}
         >
-          Left Sidebar
+          <LeftSideBar />
         </ResizablePanel>
+
+        <ResizableHandle className="bg-black rounded-lg h-full w-2 transition-colors" />
 
         {/* Main Content */}
         <ResizablePanel defaultSize={isMobile ? 80 : 60}>
           {children}
         </ResizablePanel>
+
+        <ResizableHandle className="bg-black rounded-lg h-full w-2 transition-colors" />
 
         {/* Right Sidebar */}
         <ResizablePanel
@@ -34,7 +39,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
           minSize={0}
           collapsedSize={0}
         >
-          Friends Activity
+          <ActivityBar />
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>

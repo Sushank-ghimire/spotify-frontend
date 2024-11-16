@@ -13,8 +13,17 @@ import {
   ResizablePanelGroup,
   ResizablePanel,
 } from "./ui/resizable";
+import ActivityBar from "../layouts/components/ActivityBar";
+import LeftSideBar from "../layouts/components/LeftSideBar";
+import { ScrollArea, ScrollBar } from "./ui/scroll-area";
+import Loader from "./Loader";
+import PlaylistSkeleton from "./skeletons/PlaylistSkeleton";
 
 export {
+  PlaylistSkeleton,
+  Loader,
+  LeftSideBar,
+  ActivityBar,
   Button,
   Topbar,
   SignedOutAuthButton,
@@ -26,4 +35,6 @@ export {
   ResizableHandle,
   ResizablePanelGroup,
   ResizablePanel,
+  ScrollArea,
+  ScrollBar,
 };

@@ -21,6 +21,7 @@ const IndexLazyImport = createFileRoute('/')()
 const SsoCallbackIndexLazyImport = createFileRoute('/sso-callback/')()
 const SignUpIndexLazyImport = createFileRoute('/sign-up/')()
 const SignInIndexLazyImport = createFileRoute('/sign-in/')()
+const ChatIndexLazyImport = createFileRoute('/chat/')()
 const AuthCallbackIndexLazyImport = createFileRoute('/auth-callback/')()
 const AdminIndexLazyImport = createFileRoute('/admin/')()
 
@@ -51,6 +52,12 @@ const SignInIndexLazyRoute = SignInIndexLazyImport.update({
   path: '/sign-in/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/sign-in/index.lazy').then((d) => d.Route))
+
+const ChatIndexLazyRoute = ChatIndexLazyImport.update({
+  id: '/chat/',
+  path: '/chat/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/chat/index.lazy').then((d) => d.Route))
 
 const AuthCallbackIndexLazyRoute = AuthCallbackIndexLazyImport.update({
   id: '/auth-callback/',
@@ -104,6 +111,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCallbackIndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/chat/': {
+      id: '/chat/'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/sign-in/': {
       id: '/sign-in/'
       path: '/sign-in'
@@ -135,6 +149,7 @@ export interface FileRoutesByFullPath {
   '/album': typeof AlbumIndexRoute
   '/admin': typeof AdminIndexLazyRoute
   '/auth-callback': typeof AuthCallbackIndexLazyRoute
+  '/chat': typeof ChatIndexLazyRoute
   '/sign-in': typeof SignInIndexLazyRoute
   '/sign-up': typeof SignUpIndexLazyRoute
   '/sso-callback': typeof SsoCallbackIndexLazyRoute
@@ -145,6 +160,7 @@ export interface FileRoutesByTo {
   '/album': typeof AlbumIndexRoute
   '/admin': typeof AdminIndexLazyRoute
   '/auth-callback': typeof AuthCallbackIndexLazyRoute
+  '/chat': typeof ChatIndexLazyRoute
   '/sign-in': typeof SignInIndexLazyRoute
   '/sign-up': typeof SignUpIndexLazyRoute
   '/sso-callback': typeof SsoCallbackIndexLazyRoute
@@ -156,6 +172,7 @@ export interface FileRoutesById {
   '/album/': typeof AlbumIndexRoute
   '/admin/': typeof AdminIndexLazyRoute
   '/auth-callback/': typeof AuthCallbackIndexLazyRoute
+  '/chat/': typeof ChatIndexLazyRoute
   '/sign-in/': typeof SignInIndexLazyRoute
   '/sign-up/': typeof SignUpIndexLazyRoute
   '/sso-callback/': typeof SsoCallbackIndexLazyRoute
@@ -168,6 +185,7 @@ export interface FileRouteTypes {
     | '/album'
     | '/admin'
     | '/auth-callback'
+    | '/chat'
     | '/sign-in'
     | '/sign-up'
     | '/sso-callback'
@@ -177,6 +195,7 @@ export interface FileRouteTypes {
     | '/album'
     | '/admin'
     | '/auth-callback'
+    | '/chat'
     | '/sign-in'
     | '/sign-up'
     | '/sso-callback'
@@ -186,6 +205,7 @@ export interface FileRouteTypes {
     | '/album/'
     | '/admin/'
     | '/auth-callback/'
+    | '/chat/'
     | '/sign-in/'
     | '/sign-up/'
     | '/sso-callback/'
@@ -197,6 +217,7 @@ export interface RootRouteChildren {
   AlbumIndexRoute: typeof AlbumIndexRoute
   AdminIndexLazyRoute: typeof AdminIndexLazyRoute
   AuthCallbackIndexLazyRoute: typeof AuthCallbackIndexLazyRoute
+  ChatIndexLazyRoute: typeof ChatIndexLazyRoute
   SignInIndexLazyRoute: typeof SignInIndexLazyRoute
   SignUpIndexLazyRoute: typeof SignUpIndexLazyRoute
   SsoCallbackIndexLazyRoute: typeof SsoCallbackIndexLazyRoute
@@ -207,6 +228,7 @@ const rootRouteChildren: RootRouteChildren = {
   AlbumIndexRoute: AlbumIndexRoute,
   AdminIndexLazyRoute: AdminIndexLazyRoute,
   AuthCallbackIndexLazyRoute: AuthCallbackIndexLazyRoute,
+  ChatIndexLazyRoute: ChatIndexLazyRoute,
   SignInIndexLazyRoute: SignInIndexLazyRoute,
   SignUpIndexLazyRoute: SignUpIndexLazyRoute,
   SsoCallbackIndexLazyRoute: SsoCallbackIndexLazyRoute,
@@ -226,6 +248,7 @@ export const routeTree = rootRoute
         "/album/",
         "/admin/",
         "/auth-callback/",
+        "/chat/",
         "/sign-in/",
         "/sign-up/",
         "/sso-callback/"
@@ -242,6 +265,9 @@ export const routeTree = rootRoute
     },
     "/auth-callback/": {
       "filePath": "auth-callback/index.lazy.tsx"
+    },
+    "/chat/": {
+      "filePath": "chat/index.lazy.tsx"
     },
     "/sign-in/": {
       "filePath": "sign-in/index.lazy.tsx"

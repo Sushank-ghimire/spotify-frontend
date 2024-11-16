@@ -6,7 +6,7 @@ import SignedOutAuthButton from "./SignedOutAuthButton";
 const Topbar = () => {
   const isAdmin = false;
   return (
-    <div className="flex justify-between items-center p-4 backdrop-blur-md bg-zinc-900/75 sticky top-0">
+    <div className="flex justify-between items-center p-4 backdrop-blur-md bg-zinc-900/75 sticky top-0 mt-2 rounded">
       <div className="flex justify-center gap-2">Spotify</div>
       <div className="flex justify-center gap-4">
         {isAdmin && (

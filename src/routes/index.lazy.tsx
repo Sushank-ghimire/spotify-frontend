@@ -1,5 +1,6 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import MainLayout from "../layouts/MainLayout";
+import Topbar from "../components/Topbar";
 
 export const Route = createLazyFileRoute("/")({
   component: HomePage,
@@ -8,6 +9,7 @@ export const Route = createLazyFileRoute("/")({
 function HomePage() {
   return (
     <MainLayout>
+      <Topbar />
       <div>Home Page Layout Route is here.</div>
     </MainLayout>
   );
