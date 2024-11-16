@@ -1,11 +1,10 @@
-import { Outlet } from "@tanstack/react-router";
 import {
   ResizablePanel,
   ResizablePanelGroup,
   Topbar,
 } from "../components/Export";
 
-const MainLayout = () => {
+const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const isMobile = false;
   return (
     <div className="h-screen overflow-x-hidden w-screen bg-black text-white">
@@ -25,7 +24,7 @@ const MainLayout = () => {
 
         {/* Main Content */}
         <ResizablePanel defaultSize={isMobile ? 80 : 60}>
-          <Outlet />
+          {children}
         </ResizablePanel>
 
         {/* Right Sidebar */}

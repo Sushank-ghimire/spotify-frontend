@@ -13,25 +13,18 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as AlbumIndexImport } from './routes/album/index'
 
 // Create Virtual Routes
 
-const AlbumLazyImport = createFileRoute('/album')()
 const IndexLazyImport = createFileRoute('/')()
 const SsoCallbackIndexLazyImport = createFileRoute('/sso-callback/')()
 const SignUpIndexLazyImport = createFileRoute('/sign-up/')()
 const SignInIndexLazyImport = createFileRoute('/sign-in/')()
 const AuthCallbackIndexLazyImport = createFileRoute('/auth-callback/')()
-const AlbumIndexLazyImport = createFileRoute('/album/')()
 const AdminIndexLazyImport = createFileRoute('/admin/')()
 
 // Create/Update Routes
-
-const AlbumLazyRoute = AlbumLazyImport.update({
-  id: '/album',
-  path: '/album',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/album.index').then((d) => d.Route))
 
 const IndexLazyRoute = IndexLazyImport.update({
   id: '/',
@@ -67,17 +60,17 @@ const AuthCallbackIndexLazyRoute = AuthCallbackIndexLazyImport.update({
   import('./routes/auth-callback/index.lazy').then((d) => d.Route),
 )
 
-const AlbumIndexLazyRoute = AlbumIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AlbumLazyRoute,
-} as any).lazy(() => import('./routes/album').then((d) => d.Route))
-
 const AdminIndexLazyRoute = AdminIndexLazyImport.update({
   id: '/admin/',
   path: '/admin/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/admin/index.lazy').then((d) => d.Route))
+
+const AlbumIndexRoute = AlbumIndexImport.update({
+  id: '/album/',
+  path: '/album/',
+  getParentRoute: () => rootRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -90,11 +83,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/album': {
-      id: '/album'
+    '/album/': {
+      id: '/album/'
       path: '/album'
       fullPath: '/album'
-      preLoaderRoute: typeof AlbumLazyImport
+      preLoaderRoute: typeof AlbumIndexImport
       parentRoute: typeof rootRoute
     }
     '/admin/': {
@@ -103,13 +96,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin'
       preLoaderRoute: typeof AdminIndexLazyImport
       parentRoute: typeof rootRoute
-    }
-    '/album/': {
-      id: '/album/'
-      path: '/'
-      fullPath: '/album/'
-      preLoaderRoute: typeof AlbumIndexLazyImport
-      parentRoute: typeof AlbumLazyImport
     }
     '/auth-callback/': {
       id: '/auth-callback/'
@@ -144,23 +130,10 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-interface AlbumLazyRouteChildren {
-  AlbumIndexLazyRoute: typeof AlbumIndexLazyRoute
-}
-
-const AlbumLazyRouteChildren: AlbumLazyRouteChildren = {
-  AlbumIndexLazyRoute: AlbumIndexLazyRoute,
-}
-
-const AlbumLazyRouteWithChildren = AlbumLazyRoute._addFileChildren(
-  AlbumLazyRouteChildren,
-)
-
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
-  '/album': typeof AlbumLazyRouteWithChildren
+  '/album': typeof AlbumIndexRoute
   '/admin': typeof AdminIndexLazyRoute
-  '/album/': typeof AlbumIndexLazyRoute
   '/auth-callback': typeof AuthCallbackIndexLazyRoute
   '/sign-in': typeof SignInIndexLazyRoute
   '/sign-up': typeof SignUpIndexLazyRoute
@@ -169,8 +142,8 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/album': typeof AlbumIndexRoute
   '/admin': typeof AdminIndexLazyRoute
-  '/album': typeof AlbumIndexLazyRoute
   '/auth-callback': typeof AuthCallbackIndexLazyRoute
   '/sign-in': typeof SignInIndexLazyRoute
   '/sign-up': typeof SignUpIndexLazyRoute
@@ -180,9 +153,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
-  '/album': typeof AlbumLazyRouteWithChildren
+  '/album/': typeof AlbumIndexRoute
   '/admin/': typeof AdminIndexLazyRoute
-  '/album/': typeof AlbumIndexLazyRoute
   '/auth-callback/': typeof AuthCallbackIndexLazyRoute
   '/sign-in/': typeof SignInIndexLazyRoute
   '/sign-up/': typeof SignUpIndexLazyRoute
@@ -195,7 +167,6 @@ export interface FileRouteTypes {
     | '/'
     | '/album'
     | '/admin'
-    | '/album/'
     | '/auth-callback'
     | '/sign-in'
     | '/sign-up'
@@ -203,8 +174,8 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/admin'
     | '/album'
+    | '/admin'
     | '/auth-callback'
     | '/sign-in'
     | '/sign-up'
@@ -212,9 +183,8 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/album'
-    | '/admin/'
     | '/album/'
+    | '/admin/'
     | '/auth-callback/'
     | '/sign-in/'
     | '/sign-up/'
@@ -224,7 +194,7 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
-  AlbumLazyRoute: typeof AlbumLazyRouteWithChildren
+  AlbumIndexRoute: typeof AlbumIndexRoute
   AdminIndexLazyRoute: typeof AdminIndexLazyRoute
   AuthCallbackIndexLazyRoute: typeof AuthCallbackIndexLazyRoute
   SignInIndexLazyRoute: typeof SignInIndexLazyRoute
@@ -234,7 +204,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
-  AlbumLazyRoute: AlbumLazyRouteWithChildren,
+  AlbumIndexRoute: AlbumIndexRoute,
   AdminIndexLazyRoute: AdminIndexLazyRoute,
   AuthCallbackIndexLazyRoute: AuthCallbackIndexLazyRoute,
   SignInIndexLazyRoute: SignInIndexLazyRoute,
@@ -253,7 +223,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/album",
+        "/album/",
         "/admin/",
         "/auth-callback/",
         "/sign-in/",
@@ -264,18 +234,11 @@ export const routeTree = rootRoute
     "/": {
       "filePath": "index.lazy.tsx"
     },
-    "/album": {
-      "filePath": "album.lazy.tsx",
-      "children": [
-        "/album/"
-      ]
+    "/album/": {
+      "filePath": "album/index.tsx"
     },
     "/admin/": {
       "filePath": "admin/index.lazy.tsx"
-    },
-    "/album/": {
-      "filePath": "album/index.lazy.tsx",
-      "parent": "/album"
     },
     "/auth-callback/": {
       "filePath": "auth-callback/index.lazy.tsx"
