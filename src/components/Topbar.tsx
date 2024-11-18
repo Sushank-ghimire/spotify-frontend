@@ -13,7 +13,7 @@ const Topbar = () => {
   useEffect(() => {
     const checkIsAdmin = async () => {
       try {
-        // const { data } = await axiosInstance.get("/api/v1/admin/check");
+        // const { data } = await axiosInstance.get("/admin/check");
         if (isAdmin) {
           setIsAdmin(true);
         }

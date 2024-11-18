@@ -21,7 +21,7 @@ function AuthCallback() {
       try {
         syncAttempted.current = true;
         if (!user || !isLoaded || syncAttempted.current) return;
-        await axiosInstance.post("api/v1/users/register", {
+        await axiosInstance.post("/users/register", {
           clerkId: user?.id,
           profileUrl: user?.imageUrl,
           email: user?.primaryEmailAddress?.emailAddress,

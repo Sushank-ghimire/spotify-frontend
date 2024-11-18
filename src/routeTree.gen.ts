@@ -13,7 +13,6 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as AlbumIndexImport } from './routes/album/index'
 
 // Create Virtual Routes
 
@@ -24,6 +23,7 @@ const SignInIndexLazyImport = createFileRoute('/sign-in/')()
 const ChatIndexLazyImport = createFileRoute('/chat/')()
 const AuthCallbackIndexLazyImport = createFileRoute('/auth-callback/')()
 const AdminIndexLazyImport = createFileRoute('/admin/')()
+const AlbumAlbumIdIndexLazyImport = createFileRoute('/album/$albumId/')()
 
 // Create/Update Routes
 
@@ -73,11 +73,13 @@ const AdminIndexLazyRoute = AdminIndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/admin/index.lazy').then((d) => d.Route))
 
-const AlbumIndexRoute = AlbumIndexImport.update({
-  id: '/album/',
-  path: '/album/',
+const AlbumAlbumIdIndexLazyRoute = AlbumAlbumIdIndexLazyImport.update({
+  id: '/album/$albumId/',
+  path: '/album/$albumId/',
   getParentRoute: () => rootRoute,
-} as any)
+} as any).lazy(() =>
+  import('./routes/album/$albumId/index.lazy').then((d) => d.Route),
+)
 
 // Populate the FileRoutesByPath interface
 
@@ -88,13 +90,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/album/': {
-      id: '/album/'
-      path: '/album'
-      fullPath: '/album'
-      preLoaderRoute: typeof AlbumIndexImport
       parentRoute: typeof rootRoute
     }
     '/admin/': {
@@ -139,6 +134,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SsoCallbackIndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/album/$albumId/': {
+      id: '/album/$albumId/'
+      path: '/album/$albumId'
+      fullPath: '/album/$albumId'
+      preLoaderRoute: typeof AlbumAlbumIdIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -146,92 +148,92 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
-  '/album': typeof AlbumIndexRoute
   '/admin': typeof AdminIndexLazyRoute
   '/auth-callback': typeof AuthCallbackIndexLazyRoute
   '/chat': typeof ChatIndexLazyRoute
   '/sign-in': typeof SignInIndexLazyRoute
   '/sign-up': typeof SignUpIndexLazyRoute
   '/sso-callback': typeof SsoCallbackIndexLazyRoute
+  '/album/$albumId': typeof AlbumAlbumIdIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
-  '/album': typeof AlbumIndexRoute
   '/admin': typeof AdminIndexLazyRoute
   '/auth-callback': typeof AuthCallbackIndexLazyRoute
   '/chat': typeof ChatIndexLazyRoute
   '/sign-in': typeof SignInIndexLazyRoute
   '/sign-up': typeof SignUpIndexLazyRoute
   '/sso-callback': typeof SsoCallbackIndexLazyRoute
+  '/album/$albumId': typeof AlbumAlbumIdIndexLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
-  '/album/': typeof AlbumIndexRoute
   '/admin/': typeof AdminIndexLazyRoute
   '/auth-callback/': typeof AuthCallbackIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
   '/sign-in/': typeof SignInIndexLazyRoute
   '/sign-up/': typeof SignUpIndexLazyRoute
   '/sso-callback/': typeof SsoCallbackIndexLazyRoute
+  '/album/$albumId/': typeof AlbumAlbumIdIndexLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/album'
     | '/admin'
     | '/auth-callback'
     | '/chat'
     | '/sign-in'
     | '/sign-up'
     | '/sso-callback'
+    | '/album/$albumId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/album'
     | '/admin'
     | '/auth-callback'
     | '/chat'
     | '/sign-in'
     | '/sign-up'
     | '/sso-callback'
+    | '/album/$albumId'
   id:
     | '__root__'
     | '/'
-    | '/album/'
     | '/admin/'
     | '/auth-callback/'
     | '/chat/'
     | '/sign-in/'
     | '/sign-up/'
     | '/sso-callback/'
+    | '/album/$albumId/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
-  AlbumIndexRoute: typeof AlbumIndexRoute
   AdminIndexLazyRoute: typeof AdminIndexLazyRoute
   AuthCallbackIndexLazyRoute: typeof AuthCallbackIndexLazyRoute
   ChatIndexLazyRoute: typeof ChatIndexLazyRoute
   SignInIndexLazyRoute: typeof SignInIndexLazyRoute
   SignUpIndexLazyRoute: typeof SignUpIndexLazyRoute
   SsoCallbackIndexLazyRoute: typeof SsoCallbackIndexLazyRoute
+  AlbumAlbumIdIndexLazyRoute: typeof AlbumAlbumIdIndexLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
-  AlbumIndexRoute: AlbumIndexRoute,
   AdminIndexLazyRoute: AdminIndexLazyRoute,
   AuthCallbackIndexLazyRoute: AuthCallbackIndexLazyRoute,
   ChatIndexLazyRoute: ChatIndexLazyRoute,
   SignInIndexLazyRoute: SignInIndexLazyRoute,
   SignUpIndexLazyRoute: SignUpIndexLazyRoute,
   SsoCallbackIndexLazyRoute: SsoCallbackIndexLazyRoute,
+  AlbumAlbumIdIndexLazyRoute: AlbumAlbumIdIndexLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -245,20 +247,17 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/album/",
         "/admin/",
         "/auth-callback/",
         "/chat/",
         "/sign-in/",
         "/sign-up/",
-        "/sso-callback/"
+        "/sso-callback/",
+        "/album/$albumId/"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
-    },
-    "/album/": {
-      "filePath": "album/index.tsx"
     },
     "/admin/": {
       "filePath": "admin/index.lazy.tsx"
@@ -277,6 +276,9 @@ export const routeTree = rootRoute
     },
     "/sso-callback/": {
       "filePath": "sso-callback/index.lazy.tsx"
+    },
+    "/album/$albumId/": {
+      "filePath": "album/$albumId/index.lazy.tsx"
     }
   }
 }

@@ -4,17 +4,19 @@ import { cn } from "../../lib/utils";
 import { buttonVariants } from "../../components/ui/button";
 import { useAuth } from "@clerk/clerk-react";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { PlaylistSkeleton } from "../../components/Export";
+import { useMusicStore } from "../../stores/useMusicStore";
+import Album from "./Album";
 
 const LeftSideBar = () => {
   const { isSignedIn } = useAuth();
 
-  const [isLoading, setIsLoading] = useState(true);
+  const { albums, songs, fetchAlbums, isLoading } = useMusicStore();
 
   useEffect(() => {
-    setIsLoading(false);
-  }, []);
+    fetchAlbums();
+  }, [fetchAlbums]);
 
   return (
     <div className="flex flex-col gap-3 p-2 text-lg">
@@ -57,9 +59,21 @@ const LeftSideBar = () => {
           </div>
         </div>
         {isLoading ? (
-          <PlaylistSkeleton />
+          <ScrollArea className="h-[calc(100vh-300px)] overflow-y-scroll">
+            <PlaylistSkeleton />
+          </ScrollArea>
         ) : (
-          <ScrollArea className="h-[calc(100vh-300px)]"></ScrollArea>
+          <ScrollArea className="h-[calc(100vh-300px)] overflow-y-scroll">
+            {albums.map((album) => (
+              <Link
+                className="p-3 hover:bg-zinc-800 transition-all rounded-sm flex items-center gap-3 group overflow-y-scroll text-sm"
+                key={album._id}
+                to={`/album/${album._id}`}
+              >
+                <Album album={album} />
+              </Link>
+            ))}
+          </ScrollArea>
         )}
       </section>
     </div>
