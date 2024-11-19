@@ -18,6 +18,7 @@ import LeftSideBar from "../layouts/components/LeftSideBar";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 import Loader from "./Loader";
 import PlaylistSkeleton from "./skeletons/PlaylistSkeleton";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 export {
   PlaylistSkeleton,
@@ -37,4 +38,7 @@ export {
   ResizablePanel,
   ScrollArea,
   ScrollBar,
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
 };
