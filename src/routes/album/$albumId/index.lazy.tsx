@@ -29,7 +29,8 @@ const gradientColors = [
 
 function RouteComponent() {
   const { albumId }: { albumId: string } = Route.useParams();
-  const { fetchAlbumById, isLoading, currentAlbum } = useMusicStore();
+  const { fetchAlbumById, isLoading, currentAlbum, albumSongs } =
+    useMusicStore();
 
   const [gradient, setGradient] = useState("");
 
@@ -50,7 +51,7 @@ function RouteComponent() {
       ) : currentAlbum === null ? (
         "Album not founded"
       ) : (
-        <div className="min-h-[calc(100vh-300px)] w-full">
+        <div className="w-full h-full pb-4">
           <ScrollArea className="h-full overflow-y-scroll">
             {/* Main Content */}
             <div className="relative min-h-full">
@@ -95,7 +96,7 @@ function RouteComponent() {
                 {/* Songs Table Section */}
                 <div className="bg-black/20 backdrop-blur">
                   {/* Table Header */}
-                  <div className="grid grid-cols-[16px_4fr_2fr_1fr] gap-4 px-10 py-2 text-sm text-zinc-400 border-b border-white/5">
+                  <div className="grid mb-2 grid-cols-[16px_4fr_2fr_1fr] gap-4 px-10 py-4 text-sm text-zinc-400 border-b border-white/5">
                     <div>#</div>
                     <div>Title</div>
                     <div>Released Date</div>
@@ -107,13 +108,14 @@ function RouteComponent() {
                   {/* Songs List */}
                   <div className="px-6 ">
                     <div className="space-x-4 space-y-2">
-                      {currentAlbum.songs?.map((songs, index) => (
-                        <DisplaySongs
-                          key={songs._id}
-                          songs={songs}
-                          index={index}
-                        />
-                      ))}
+                      {albumSongs !== null &&
+                        albumSongs?.map((songs, index) => (
+                          <DisplaySongs
+                            key={songs._id}
+                            songs={songs}
+                            index={index}
+                          />
+                        ))}
                     </div>
                   </div>
                 </div>
@@ -126,25 +128,42 @@ function RouteComponent() {
   );
 }
 
+const calculateDuration = (duration: number) => {
+  if (duration < 60) {
+    return `0:${duration.toString().padStart(2, "0")}`;
+  }
+  const minutes = Math.floor(duration / 60);
+  const remainingSeconds = duration % 60;
+  return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
+};
+
 const DisplaySongs = ({ songs, index }: { songs: Song; index: number }) => {
   return (
     <div
       key={songs._id}
-      className="cursor-pointer grid grid-cols-[16px_4fr_2fr_1fr] gap-4 px-10 py-2 text-sm text-zinc-400 w-full hover:bg-white/5 rounded-md group"
+      className="grid grid-cols-[14px_4fr_2fr_1fr] gap-4 px-4 py-2 text-sm text-zinc-400 hover:bg-white/5 rounded-md group cursor-pointer"
     >
-      <div className="flex items-center justify-center">
-        <span className="group-hover:hidden">{index + 1}</span>
-        <Play className="h-4 hidden group-hover:block w-4 rounded" />
+      <div className="flex items-center justify-between">
+        <span className="group-hover:hidden text-center w-full">
+          {index + 1}
+        </span>
+        <Play className="hidden absolute group-hover:block h-4 w-4 text-white" />
       </div>
       <div className="flex items-center gap-3">
-        <img src={songs.imageUrl} alt={songs.title} />
-        <div>
-          <span className="font-medium text-white">{songs.title}</span>
+        <img
+          src={songs.imageUrl}
+          className="size-10 rounded-sm"
+          alt={songs.title}
+        />
+        <div className="flex gap-2">
+          <span className="font-medium text-white truncate">{songs.title}</span>
           <span>{songs.artist}</span>
         </div>
       </div>
       <div className="flex items-center">{songs.createdAt?.split("T")[0]}</div>
-      <div className="flex items-center">{songs.duration}</div>
+      <div className="flex items-center">
+        {calculateDuration(songs.duration)}
+      </div>
     </div>
   );
 };

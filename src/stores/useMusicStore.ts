@@ -9,7 +9,7 @@ export interface Album {
   releaseYear: number;
   createdAt?: string;
   updatedAt?: string;
-  songs?: Song[];
+  songs?: string[];
 }
 
 export interface Song {
@@ -67,6 +67,19 @@ export const useMusicStore = create<MusicStore>((set) => ({
       const { data } = await axiosInstance.get(`/album/${albumId}`);
       const album: Album = data.album;
       set({ currentAlbum: album });
+
+      // Fetch songs for the album
+      const songFetchPromises: Promise<{ data: { song: Song } }>[] =
+        album.songs?.map((id) =>
+          axiosInstance.get<{ song: Song }>(`/songs/${id}`)
+        ) || [];
+
+      // Resolve all song fetch requests
+      const songsResponses = await Promise.all(songFetchPromises);
+      const songs: Song[] = songsResponses.map(
+        (response) => response.data.song
+      );
+      set({ albumSongs: songs });
     } catch (error) {
       if (error instanceof Error) {
         set({ error: error.message || "Error while fetching album" });
