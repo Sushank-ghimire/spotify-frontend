@@ -12,7 +12,7 @@ import Album from "./Album";
 const LeftSideBar = () => {
   const { isSignedIn } = useAuth();
 
-  const { albums, songs, fetchAlbums, isLoading } = useMusicStore();
+  const { albums, fetchAlbums, isLoading } = useMusicStore();
 
   useEffect(() => {
     fetchAlbums();

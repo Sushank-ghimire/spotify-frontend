@@ -9,6 +9,7 @@ export interface Album {
   releaseYear: number;
   createdAt?: string;
   updatedAt?: string;
+  songs?: Song[];
 }
 
 export interface Song {
@@ -27,17 +28,21 @@ interface MusicStore {
   albums: Album[];
   songs: Song[];
   isLoading: boolean;
+  currentAlbum: Album | null;
   error: string | null | unknown;
+  albumSongs?: null | Song[];
   fetchAlbums: () => Promise<void>;
   fetchSongs: () => Promise<void>;
-  fetchAlbumById: (albumId: string) => Promise<Album | undefined>;
+  fetchAlbumById: (albumId: string) => Promise<void>;
 }
 
 export const useMusicStore = create<MusicStore>((set) => ({
   albums: [],
   songs: [],
+  albumSongs: null,
   isLoading: false,
   error: null,
+  currentAlbum: null,
   fetchAlbums: async () => {
     // Fetching albums data from backend
     set({
@@ -56,12 +61,12 @@ export const useMusicStore = create<MusicStore>((set) => ({
     }
   },
   fetchSongs: async () => {},
+
   fetchAlbumById: async (albumId: string) => {
     try {
       const { data } = await axiosInstance.get(`/album/${albumId}`);
       const album: Album = data.album;
-      console.log(data);
-      return album;
+      set({ currentAlbum: album });
     } catch (error) {
       if (error instanceof Error) {
         set({ error: error.message || "Error while fetching album" });
