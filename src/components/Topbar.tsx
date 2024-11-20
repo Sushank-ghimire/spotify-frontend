@@ -1,37 +1,23 @@
-import { SignedIn, SignedOut, SignOutButton } from "@clerk/clerk-react";
+import {
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/clerk-react";
 import { Link } from "@tanstack/react-router";
 import { LayoutDashboardIcon } from "lucide-react";
 import SignedOutAuthButton from "./SignedOutAuthButton";
-import { useEffect, useState } from "react";
-import { axiosInstance } from "../lib/axios";
+import { useAdminStore } from "../stores/useAdmin";
 
 const Topbar = () => {
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const checkIsAdmin = async () => {
-      try {
-        // const { data } = await axiosInstance.get("/admin/check");
-        if (isAdmin) {
-          setIsAdmin(true);
-        }
-        return;
-      } catch (error) {
-        console.log("error occured in topbar component : ", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    checkIsAdmin();
-  }, [isLoading, isAdmin]);
+  const { isAdmin, isLoading } = useAdminStore();
 
   isLoading && null;
 
   return (
     <div className="flex justify-between items-center p-4 backdrop-blur-md bg-zinc-900/75 sticky top-0 mt-2 rounded">
-      <div className="flex justify-center gap-2">Spotify</div>
+      <div className="flex justify-center gap-2">
+        <img src="/spotify.png" className="h-8" alt="" />
+      </div>
       <div className="flex justify-center gap-4">
         {isAdmin && (
           <Link
@@ -46,7 +32,14 @@ const Topbar = () => {
         </SignedOut>
 
         <SignedIn>
-          <SignOutButton />
+          <UserButton
+            userProfileMode="modal"
+            appearance={{
+              elements: {
+                formButtonPrimary: "dark:bg-zinc-900 text-sm",
+              },
+            }}
+          />
         </SignedIn>
       </div>
     </div>

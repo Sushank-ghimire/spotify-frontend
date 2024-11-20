@@ -41,7 +41,7 @@ const ActivityBar = () => {
           <div className="flex flex-col gap-4 space-y-2">
             {users &&
               users.map((user) => (
-                <DisplayUsers user={user} isPlaying={isPlaying} />
+                <DisplayUsers key={user._id} user={user} isPlaying={isPlaying} />
               ))}
           </div>
         </div>
@@ -92,7 +92,7 @@ const DisplayUsers = ({
         <div className="relative">
           <Avatar className="size-10 border border-zinc-800">
             <AvatarImage src={user.imageUrl} alt={user.fullName} />
-            <AvatarFallback>{user?.fullName.split(" ")[0]}</AvatarFallback>
+            <AvatarFallback>{user?.fullName}</AvatarFallback>
           </Avatar>
           <div
             className={`absolute bottom-0 h-3 w-3 rounded-full border-2 border-zinc-900 bg-zinc-500`}

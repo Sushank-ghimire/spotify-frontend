@@ -2,6 +2,7 @@ import { useAuth } from "@clerk/clerk-react";
 import { useEffect, useState } from "react";
 import { axiosInstance } from "../lib/axios";
 import { Loader } from "lucide-react";
+import { useAdminStore } from "../stores/useAdmin";
 
 const updateApiToken = async (token: string | null) => {
   if (token) {
@@ -14,12 +15,17 @@ const updateApiToken = async (token: string | null) => {
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { getToken } = useAuth();
 
+  const { fetchAdmin } = useAdminStore();
+
   const [loading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const initAuthConfig = async () => {
       try {
         const token = await getToken();
+        if (token) {
+          await fetchAdmin();
+        }
         updateApiToken(token);
       } catch (error) {
         updateApiToken(null);
