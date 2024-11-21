@@ -1,10 +1,11 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import MainLayout from "../../../layouts/MainLayout";
 import { useEffect, useState } from "react";
-import { Song, useMusicStore } from "../../../stores/useMusicStore";
+import { useMusicStore } from "../../../stores/useMusicStore";
 import Loader from "../../../components/Loader";
 import { Button, ScrollArea } from "../../../components/Export";
 import { Clock, Play } from "lucide-react";
+import { Song } from "../../../types/useMusicStoreTypes";
 
 export const Route = createLazyFileRoute("/album/$albumId/")({
   component: RouteComponent,
@@ -51,7 +52,7 @@ function RouteComponent() {
       ) : currentAlbum === null ? (
         "Album not founded"
       ) : (
-        <div className="w-full h-full pb-4">
+        <div className="w-full h-[calc(100vh-70px)] pb-4">
           <ScrollArea className="h-full overflow-y-scroll">
             {/* Main Content */}
             <div className="relative min-h-full">

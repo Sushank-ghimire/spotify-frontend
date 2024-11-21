@@ -5,6 +5,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "../components/Export";
+import AudioPlayer from "./components/AudioPlayer";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const isMobile = false;
@@ -14,6 +15,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         className="h-full flex-1 overflow-hidden p-2"
         direction="horizontal"
       >
+        <AudioPlayer />
         {/* Left Sidebar */}
         <ResizablePanel
           defaultSize={20}

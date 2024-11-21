@@ -1,12 +1,6 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
-
-interface AdminStore {
-  isAdmin: boolean | null;
-  isLoading: boolean | null;
-  error: unknown | null | string;
-  fetchAdmin: () => Promise<void>;
-}
+import { AdminStore } from "../types/useAdminStoreTypes";
 
 export const useAdminStore = create<AdminStore>((set) => ({
   isAdmin: false,

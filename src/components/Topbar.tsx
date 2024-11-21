@@ -13,15 +13,16 @@ const Topbar = () => {
     <div className="flex justify-between items-center p-4 backdrop-blur-md bg-zinc-900/75 sticky top-0 rounded">
       <div className="flex justify-center gap-2 items-center text-lg cursor-pointer">
         <img src="/spotify.png" className="h-8" alt="" />
-        Spotify
+        <span className="hidden md:block">Spotify</span>
       </div>
       <div className="flex justify-center gap-4">
         {isAdmin && (
           <Link
-            className="gap-2 flex justify-between bg-black border p-2 rounded text-sm items-center hover:bg-zinc-800 transition-all"
+            className="gap-2 flex justify-center md:justify-between bg-black border p-2 rounded text-sm items-center hover:bg-zinc-800 transition-all"
             to="/admin"
           >
-            <LayoutDashboardIcon className="size-5 mr-2" /> Admin Dashboard
+            <LayoutDashboardIcon className="size-5 mr-2" />{" "}
+            <span className="hidden md:block">Admin Dashboard</span>
           </Link>
         )}
         <SignedOut>
