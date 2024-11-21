@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { useMusicStore } from "../../../stores/useMusicStore";
 import Loader from "../../../components/Loader";
 import { Button, ScrollArea } from "../../../components/Export";
-import { Clock, Play } from "lucide-react";
+import { Clock, Music, Pause, Play } from "lucide-react";
 import { Song } from "../../../types/useMusicStoreTypes";
+import { useMusicPlayer } from "../../../stores/useMusicPlayer";
 
 export const Route = createLazyFileRoute("/album/$albumId/")({
   component: RouteComponent,
@@ -32,6 +33,25 @@ function RouteComponent() {
   const { albumId }: { albumId: string } = Route.useParams();
   const { fetchAlbumById, isLoading, currentAlbum, albumSongs } =
     useMusicStore();
+
+  const { playAlbum, currentSong, isPlaying, togglePlay } = useMusicPlayer();
+
+  const handlePlayAlbum = (index: number) => {
+    if (albumSongs) {
+      playAlbum(albumSongs, index);
+    }
+  };
+
+  const handleAlbumPlayToggle = () => {
+    const isCurrentAlbumPlaying = albumSongs?.some(
+      (song) => song._id === currentSong?._id
+    );
+    if (isCurrentAlbumPlaying) {
+      togglePlay();
+    } else {
+      handlePlayAlbum(0);
+    }
+  };
 
   const [gradient, setGradient] = useState("");
 
@@ -88,10 +108,18 @@ function RouteComponent() {
                 <div className="px-6 pb-4 flex items-center gap-6">
                   {/* Play Button */}
                   <Button
+                    onClick={handleAlbumPlayToggle}
                     className="h-14 w-14 rounded-full bg-green-400 hover:bg-green-500/80 hover:scale-105 group transition-all"
                     size={"icon"}
                   >
-                    <Play className="h-7 group-hover:scale-110 transition-all group-hover:font-bold w-7 rounded text-black" />
+                    {isPlaying &&
+                    albumSongs?.some(
+                      (song) => song._id === currentSong?._id
+                    ) ? (
+                      <Pause className="h-7 group-hover:scale-110 transition-all group-hover:font-bold w-7 rounded text-black" />
+                    ) : (
+                      <Play className="h-7 group-hover:scale-110 transition-all group-hover:font-bold w-7 rounded text-black" />
+                    )}
                   </Button>
                 </div>
                 {/* Songs Table Section */}
@@ -112,6 +140,7 @@ function RouteComponent() {
                       {albumSongs !== null &&
                         albumSongs?.map((songs, index) => (
                           <DisplaySongs
+                            playAlbumSongs={handlePlayAlbum}
                             key={songs._id}
                             songs={songs}
                             index={index}
@@ -138,17 +167,36 @@ const calculateDuration = (duration: number) => {
   return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
 };
 
-const DisplaySongs = ({ songs, index }: { songs: Song; index: number }) => {
+const DisplaySongs = ({
+  songs,
+  index,
+  playAlbumSongs,
+}: {
+  songs: Song;
+  index: number;
+  playAlbumSongs: (index: number) => void;
+}) => {
+  const { currentSong, isPlaying } = useMusicPlayer();
+  const isCurrentSong = currentSong?._id === songs._id;
   return (
     <div
+      onClick={() => playAlbumSongs(index)}
       key={songs._id}
       className="grid grid-cols-[14px_4fr_2fr_1fr] gap-4 px-4 py-2 text-sm text-zinc-400 hover:bg-white/5 rounded-md group cursor-pointer"
     >
       <div className="flex items-center justify-between">
-        <span className="group-hover:hidden text-center w-full">
-          {index + 1}
-        </span>
-        <Play className="hidden absolute group-hover:block h-4 w-4 text-white" />
+        {isCurrentSong && isPlaying ? (
+          <div className="text-green-500 size-3 justify-center flex items-center">
+            <Music />
+          </div>
+        ) : (
+          <span className="group-hover:hidden flex justify-center items-center text-center w-full">
+            {index + 1}
+          </span>
+        )}
+        {!isCurrentSong && (
+          <Play className="hidden absolute group-hover:block h-4 w-4 text-white" />
+        )}
       </div>
       <div className="flex items-center gap-3">
         <img
