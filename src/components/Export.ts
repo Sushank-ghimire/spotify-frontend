@@ -19,8 +19,18 @@ import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 import Loader from "./Loader";
 import PlaylistSkeleton from "./skeletons/PlaylistSkeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import MadeForYouSection from "./home/MadeForYouSection";
+import FeaturedSection from "./home/FeaturedSection";
+import FeaturedGridSkeleton from "./skeletons/FeatureGridSkeleton";
+import UsersListSkeleton from "./skeletons/UserListSkeleton";
+import SongsGridSkeleton from "./skeletons/SongsGridSkeleton";
 
 export {
+  SongsGridSkeleton,
+  UsersListSkeleton,
+  FeaturedGridSkeleton,
+  FeaturedSection,
+  MadeForYouSection,
   PlaylistSkeleton,
   Loader,
   LeftSideBar,
