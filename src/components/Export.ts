@@ -26,8 +26,15 @@ import UsersListSkeleton from "./skeletons/UserListSkeleton";
 import SongsGridSkeleton from "./skeletons/SongsGridSkeleton";
 import PlayButton from "./PlayButton";
 import { Slider } from "./ui/slider";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import Header from "./Admin/Header";
 
 export {
+  Header,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
   Slider,
   PlayButton,
   SongsGridSkeleton,

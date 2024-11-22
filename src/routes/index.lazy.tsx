@@ -1,4 +1,4 @@
-import { createLazyFileRoute } from "@tanstack/react-router";
+import { createLazyFileRoute, Link } from "@tanstack/react-router";
 import MainLayout from "../layouts/MainLayout";
 import Topbar from "../components/Topbar";
 import { useMusicStore } from "../stores/useMusicStore";
@@ -50,7 +50,7 @@ function HomePage() {
         <Topbar />
         <ScrollArea className="h-[calc(100vh-160px)] p-2 overflow-y-scroll">
           <div className="w-full p-2 flex flex-col gap-4 h-auto">
-            <h1 className="text-lg flex justify-between items-center font-bold md:ml-2 md:text-2xl">
+            <h1 className="text-lg flex justify-between items-center font-bold md:text-2xl">
               Good Afternoon
             </h1>
             <FeaturedSection />
@@ -59,7 +59,7 @@ function HomePage() {
             <h1 className="text-lg font-bold md:ml-2 md:text-2xl flex justify-between items-center">
               Made For You
               <span className="text-sm hover:text-zinc-400 transition-all text-zinc-600 capitalize cursor-pointer">
-                show all
+                <Link to="/made-for-you">show all</Link>
               </span>
             </h1>
             <MadeForYouSection />
@@ -68,7 +68,7 @@ function HomePage() {
             <h1 className="text-lg font-bold md:ml-2 md:text-2xl flex justify-between items-center mt-4">
               Trending
               <span className="text-sm hover:text-zinc-400 transition-all text-zinc-600 capitalize cursor-pointer">
-                show all
+                <Link to="/trending">show all</Link>
               </span>
             </h1>
             <TrendingSection />

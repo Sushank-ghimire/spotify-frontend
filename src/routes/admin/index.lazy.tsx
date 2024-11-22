@@ -15,5 +15,9 @@ function AdminDashboard() {
     }
   }, [isAdmin, fetchAdmin]);
   if (!isAdmin) return null;
-  return <div>Admin Dashboard</div>;
+  return (
+    <div className="min-h-screen w-screen bg-zinc-900">
+      
+    </div>
+  );
 }

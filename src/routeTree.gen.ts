@@ -17,9 +17,11 @@ import { Route as rootRoute } from './routes/__root'
 // Create Virtual Routes
 
 const IndexLazyImport = createFileRoute('/')()
+const TrendingIndexLazyImport = createFileRoute('/trending/')()
 const SsoCallbackIndexLazyImport = createFileRoute('/sso-callback/')()
 const SignUpIndexLazyImport = createFileRoute('/sign-up/')()
 const SignInIndexLazyImport = createFileRoute('/sign-in/')()
+const MadeForYouIndexLazyImport = createFileRoute('/made-for-you/')()
 const ChatIndexLazyImport = createFileRoute('/chat/')()
 const AuthCallbackIndexLazyImport = createFileRoute('/auth-callback/')()
 const AdminIndexLazyImport = createFileRoute('/admin/')()
@@ -32,6 +34,14 @@ const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const TrendingIndexLazyRoute = TrendingIndexLazyImport.update({
+  id: '/trending/',
+  path: '/trending/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/trending/index.lazy').then((d) => d.Route),
+)
 
 const SsoCallbackIndexLazyRoute = SsoCallbackIndexLazyImport.update({
   id: '/sso-callback/',
@@ -52,6 +62,14 @@ const SignInIndexLazyRoute = SignInIndexLazyImport.update({
   path: '/sign-in/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/sign-in/index.lazy').then((d) => d.Route))
+
+const MadeForYouIndexLazyRoute = MadeForYouIndexLazyImport.update({
+  id: '/made-for-you/',
+  path: '/made-for-you/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/made-for-you/index.lazy').then((d) => d.Route),
+)
 
 const ChatIndexLazyRoute = ChatIndexLazyImport.update({
   id: '/chat/',
@@ -113,6 +131,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChatIndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/made-for-you/': {
+      id: '/made-for-you/'
+      path: '/made-for-you'
+      fullPath: '/made-for-you'
+      preLoaderRoute: typeof MadeForYouIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/sign-in/': {
       id: '/sign-in/'
       path: '/sign-in'
@@ -134,6 +159,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SsoCallbackIndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/trending/': {
+      id: '/trending/'
+      path: '/trending'
+      fullPath: '/trending'
+      preLoaderRoute: typeof TrendingIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/album/$albumId/': {
       id: '/album/$albumId/'
       path: '/album/$albumId'
@@ -151,9 +183,11 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminIndexLazyRoute
   '/auth-callback': typeof AuthCallbackIndexLazyRoute
   '/chat': typeof ChatIndexLazyRoute
+  '/made-for-you': typeof MadeForYouIndexLazyRoute
   '/sign-in': typeof SignInIndexLazyRoute
   '/sign-up': typeof SignUpIndexLazyRoute
   '/sso-callback': typeof SsoCallbackIndexLazyRoute
+  '/trending': typeof TrendingIndexLazyRoute
   '/album/$albumId': typeof AlbumAlbumIdIndexLazyRoute
 }
 
@@ -162,9 +196,11 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexLazyRoute
   '/auth-callback': typeof AuthCallbackIndexLazyRoute
   '/chat': typeof ChatIndexLazyRoute
+  '/made-for-you': typeof MadeForYouIndexLazyRoute
   '/sign-in': typeof SignInIndexLazyRoute
   '/sign-up': typeof SignUpIndexLazyRoute
   '/sso-callback': typeof SsoCallbackIndexLazyRoute
+  '/trending': typeof TrendingIndexLazyRoute
   '/album/$albumId': typeof AlbumAlbumIdIndexLazyRoute
 }
 
@@ -174,9 +210,11 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexLazyRoute
   '/auth-callback/': typeof AuthCallbackIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
+  '/made-for-you/': typeof MadeForYouIndexLazyRoute
   '/sign-in/': typeof SignInIndexLazyRoute
   '/sign-up/': typeof SignUpIndexLazyRoute
   '/sso-callback/': typeof SsoCallbackIndexLazyRoute
+  '/trending/': typeof TrendingIndexLazyRoute
   '/album/$albumId/': typeof AlbumAlbumIdIndexLazyRoute
 }
 
@@ -187,9 +225,11 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth-callback'
     | '/chat'
+    | '/made-for-you'
     | '/sign-in'
     | '/sign-up'
     | '/sso-callback'
+    | '/trending'
     | '/album/$albumId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -197,9 +237,11 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth-callback'
     | '/chat'
+    | '/made-for-you'
     | '/sign-in'
     | '/sign-up'
     | '/sso-callback'
+    | '/trending'
     | '/album/$albumId'
   id:
     | '__root__'
@@ -207,9 +249,11 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/auth-callback/'
     | '/chat/'
+    | '/made-for-you/'
     | '/sign-in/'
     | '/sign-up/'
     | '/sso-callback/'
+    | '/trending/'
     | '/album/$albumId/'
   fileRoutesById: FileRoutesById
 }
@@ -219,9 +263,11 @@ export interface RootRouteChildren {
   AdminIndexLazyRoute: typeof AdminIndexLazyRoute
   AuthCallbackIndexLazyRoute: typeof AuthCallbackIndexLazyRoute
   ChatIndexLazyRoute: typeof ChatIndexLazyRoute
+  MadeForYouIndexLazyRoute: typeof MadeForYouIndexLazyRoute
   SignInIndexLazyRoute: typeof SignInIndexLazyRoute
   SignUpIndexLazyRoute: typeof SignUpIndexLazyRoute
   SsoCallbackIndexLazyRoute: typeof SsoCallbackIndexLazyRoute
+  TrendingIndexLazyRoute: typeof TrendingIndexLazyRoute
   AlbumAlbumIdIndexLazyRoute: typeof AlbumAlbumIdIndexLazyRoute
 }
 
@@ -230,9 +276,11 @@ const rootRouteChildren: RootRouteChildren = {
   AdminIndexLazyRoute: AdminIndexLazyRoute,
   AuthCallbackIndexLazyRoute: AuthCallbackIndexLazyRoute,
   ChatIndexLazyRoute: ChatIndexLazyRoute,
+  MadeForYouIndexLazyRoute: MadeForYouIndexLazyRoute,
   SignInIndexLazyRoute: SignInIndexLazyRoute,
   SignUpIndexLazyRoute: SignUpIndexLazyRoute,
   SsoCallbackIndexLazyRoute: SsoCallbackIndexLazyRoute,
+  TrendingIndexLazyRoute: TrendingIndexLazyRoute,
   AlbumAlbumIdIndexLazyRoute: AlbumAlbumIdIndexLazyRoute,
 }
 
@@ -250,9 +298,11 @@ export const routeTree = rootRoute
         "/admin/",
         "/auth-callback/",
         "/chat/",
+        "/made-for-you/",
         "/sign-in/",
         "/sign-up/",
         "/sso-callback/",
+        "/trending/",
         "/album/$albumId/"
       ]
     },
@@ -268,6 +318,9 @@ export const routeTree = rootRoute
     "/chat/": {
       "filePath": "chat/index.lazy.tsx"
     },
+    "/made-for-you/": {
+      "filePath": "made-for-you/index.lazy.tsx"
+    },
     "/sign-in/": {
       "filePath": "sign-in/index.lazy.tsx"
     },
@@ -276,6 +329,9 @@ export const routeTree = rootRoute
     },
     "/sso-callback/": {
       "filePath": "sso-callback/index.lazy.tsx"
+    },
+    "/trending/": {
+      "filePath": "trending/index.lazy.tsx"
     },
     "/album/$albumId/": {
       "filePath": "album/$albumId/index.lazy.tsx"
