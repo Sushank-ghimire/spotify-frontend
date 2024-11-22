@@ -6,6 +6,7 @@ import {
   ResizablePanelGroup,
 } from "../components/Export";
 import AudioPlayer from "./components/AudioPlayer";
+import PlaybackControls from "./components/PlaybackControls";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const isMobile = false;
@@ -44,6 +45,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
           <ActivityBar />
         </ResizablePanel>
       </ResizablePanelGroup>
+      <PlaybackControls />
     </div>
   );
 };

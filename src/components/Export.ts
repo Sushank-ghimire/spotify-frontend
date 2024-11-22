@@ -24,8 +24,10 @@ import FeaturedSection from "./home/FeaturedSection";
 import FeaturedGridSkeleton from "./skeletons/FeatureGridSkeleton";
 import UsersListSkeleton from "./skeletons/UserListSkeleton";
 import SongsGridSkeleton from "./skeletons/SongsGridSkeleton";
+import PlayButton from "./PlayButton";
 
 export {
+  PlayButton,
   SongsGridSkeleton,
   UsersListSkeleton,
   FeaturedGridSkeleton,

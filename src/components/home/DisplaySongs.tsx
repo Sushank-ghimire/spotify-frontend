@@ -1,4 +1,5 @@
-import { Song } from "../../stores/useMusicStore";
+import { Song } from "../../types/useMusicStoreTypes";
+import PlayButton from "../PlayButton";
 
 type Props = {
   songs: Song;
@@ -10,12 +11,13 @@ const DisplaySongs = ({ songs }: Props) => {
       className="cursor-pointer flex items-center bg-zinc-800/50 rounded-md overflow-hidden w-full flex-col hover:bg-zinc-700/50 group transition-all relative pb-3 p-4"
       key={songs._id}
     >
-      <div className="overflow-hidden">
+      <div className="overflow-hidden relative">
         <img
           className="group-hover:scale-105 aspect-square transition-all duration-200 rounded-sm"
           src={songs.imageUrl}
           alt={songs.title}
         />
+        <PlayButton song={songs} />
       </div>
       <div className="flex w-full justify-between text-left mt-3">
         <div className="">
