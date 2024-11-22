@@ -19,7 +19,7 @@ const SignedOutAuthButton = () => {
       variant={"secondary"}
       className="text-white border-zinc-200"
     >
-      Continue With Google
+      Continue With <img className="size-6" src="/google.png" alt="Google" />
     </Button>
   );
 };

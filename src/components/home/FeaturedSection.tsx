@@ -9,7 +9,7 @@ const FeaturedSection = () => {
   if (error) {
     return (
       <p className="text-red-600 text-lg text-center font-bold">
-        Error occured
+        Error occured : Refresh to resolve the error.
       </p>
     );
   }

@@ -25,8 +25,10 @@ import FeaturedGridSkeleton from "./skeletons/FeatureGridSkeleton";
 import UsersListSkeleton from "./skeletons/UserListSkeleton";
 import SongsGridSkeleton from "./skeletons/SongsGridSkeleton";
 import PlayButton from "./PlayButton";
+import { Slider } from "./ui/slider";
 
 export {
+  Slider,
   PlayButton,
   SongsGridSkeleton,
   UsersListSkeleton,

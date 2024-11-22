@@ -3,10 +3,15 @@ import MainLayout from "../../../layouts/MainLayout";
 import { useEffect, useState } from "react";
 import { useMusicStore } from "../../../stores/useMusicStore";
 import Loader from "../../../components/Loader";
-import { Button, ScrollArea } from "../../../components/Export";
+import {
+  Button,
+  ScrollArea,
+  SignedOutAuthButton,
+} from "../../../components/Export";
 import { Clock, Music, Pause, Play } from "lucide-react";
 import { Song } from "../../../types/useMusicStoreTypes";
 import { useMusicPlayer } from "../../../stores/useMusicPlayer";
+import { useUser } from "@clerk/clerk-react";
 
 export const Route = createLazyFileRoute("/album/$albumId/")({
   component: RouteComponent,
@@ -41,6 +46,18 @@ function RouteComponent() {
       playAlbum(albumSongs, index);
     }
   };
+
+  const { isSignedIn } = useUser();
+
+  if (!isSignedIn) {
+    return (
+      <MainLayout>
+        <div className="h-full w-full flex justify-center items-center">
+          <SignedOutAuthButton />
+        </div>
+      </MainLayout>
+    );
+  }
 
   const handleAlbumPlayToggle = () => {
     const isCurrentAlbumPlaying = albumSongs?.some(
@@ -158,11 +175,11 @@ function RouteComponent() {
   );
 }
 
-const calculateDuration = (duration: number) => {
+export const calculateDuration = (duration: number) => {
   if (duration < 60) {
     return `0:${duration.toString().padStart(2, "0")}`;
   }
-  const minutes = Math.floor(duration / 60);
+  const minutes = Math.round(Math.floor(duration / 60));
   const remainingSeconds = duration % 60;
   return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
 };

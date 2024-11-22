@@ -27,7 +27,7 @@ const ActivityBar = () => {
     }
   }, [getUsers, user]);
   return (
-    <div className="min-h-[calc(100vh-100px)] mt-2 rounded-md flex flex-col bg-zinc-900 gap-4 p-2">
+    <div className="min-h-[calc(100vh-92px)] mt-2 rounded-md flex flex-col bg-zinc-900 gap-4 p-2">
       {isLoading ? (
         <div className="h-full flex-col w-full flex justify-center items-center">
           <UsersListSkeleton />

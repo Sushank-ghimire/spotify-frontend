@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   ActivityBar,
   LeftSideBar,
@@ -9,7 +10,17 @@ import AudioPlayer from "./components/AudioPlayer";
 import PlaybackControls from "./components/PlaybackControls";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
-  const isMobile = false;
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleScreenChange = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleScreenChange();
+    handleScreenChange();
+    window.addEventListener("resize", handleScreenChange);
+    return () => window.removeEventListener("resize", handleScreenChange);
+  }, []);
   return (
     <div className="h-screen overflow-x-hidden w-screen bg-black text-white">
       <ResizablePanelGroup
@@ -33,17 +44,21 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
           {children}
         </ResizablePanel>
 
-        <ResizableHandle className="bg-black rounded-lg h-full w-2 transition-colors" />
-
-        {/* Right Sidebar */}
-        <ResizablePanel
-          defaultSize={20}
-          maxSize={25}
-          minSize={0}
-          collapsedSize={0}
-        >
-          <ActivityBar />
-        </ResizablePanel>
+        {!isMobile && (
+          <>
+            {" "}
+            <ResizableHandle className="bg-black rounded-lg h-full w-2 transition-colors" />
+            {/* Right Sidebar */}
+            <ResizablePanel
+              defaultSize={20}
+              maxSize={25}
+              minSize={0}
+              collapsedSize={0}
+            >
+              <ActivityBar />
+            </ResizablePanel>
+          </>
+        )}
       </ResizablePanelGroup>
       <PlaybackControls />
     </div>

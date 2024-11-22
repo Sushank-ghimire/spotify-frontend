@@ -32,7 +32,7 @@ const LeftSideBar = () => {
           to="/"
         >
           <HomeIcon className="md:mr-2 size-5" />
-          <span className="hidden md:inline">Home</span>
+          <span className="hidden lg:inline">Home</span>
         </Link>
         {isSignedIn ? (
           <Link
@@ -45,7 +45,7 @@ const LeftSideBar = () => {
             to="/chat"
           >
             <MessageCircleIcon className="md:mr-2 size-5" />
-            <span className="hidden md:inline">Messages</span>
+            <span className="hidden lg:inline">Messages</span>
           </Link>
         ) : null}
       </nav>
@@ -66,7 +66,7 @@ const LeftSideBar = () => {
           <ScrollArea className="h-[calc(100vh-300px)] overflow-y-scroll">
             {albums.map((album) => (
               <Link
-                className="p-3 hover:bg-zinc-800 transition-all rounded-sm flex items-center gap-3 group overflow-y-scroll text-sm"
+                className="md:p-3 p-2 hover:bg-zinc-800 transition-all rounded-sm flex items-center gap-3 group overflow-y-scroll text-sm"
                 key={album._id}
                 to={`/album/${album._id}`}
               >
