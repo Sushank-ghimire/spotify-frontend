@@ -28,8 +28,16 @@ import PlayButton from "./PlayButton";
 import { Slider } from "./ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import Header from "./Admin/Header";
+import DashboardStats from "./Admin/DashboardStats";
+import { TabsContent as AdminTabs } from "./Admin/TabsContent";
+import Songs from "./Admin/Songs";
+import Album from "./Admin/Album";
 
 export {
+  Album,
+  Songs,
+  AdminTabs,
+  DashboardStats,
   Header,
   Tabs,
   TabsContent,

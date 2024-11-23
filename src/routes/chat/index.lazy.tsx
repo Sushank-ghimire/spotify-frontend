@@ -20,7 +20,7 @@ function RouteComponent() {
   }
   return (
     <MainLayout>
-      <div className="bg-zinc-900 h-full w-full">This is chat page layout</div>
+      <div className="h-[calc(100vh-93px)] bg-zinc-900 rounded-md mt-2 p-2 overflow-y-scroll"></div>
     </MainLayout>
   );
 }

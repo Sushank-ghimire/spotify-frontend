@@ -20,7 +20,7 @@ const PlayButton = ({ song }: PropTypes) => {
   return (
     <button
       onClick={playSong}
-      className="absolute p-3 cursor-pointer group-hover:bottom-2 -bottom-[50%] right-2 transition-all rounded-md bg-green-500"
+      className="absolute p-3 cursor-pointer group-hover:bottom-2 -bottom-[55%] md:-bottom-[50%] right-2 transition-all rounded-md bg-green-500"
     >
       {isCurrentSong && isPlaying ? (
         <Pause className="size-4 font-bold text-black" />
