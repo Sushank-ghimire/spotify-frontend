@@ -17,7 +17,7 @@ function AdminDashboard() {
   }, [isAdmin, fetchAdmin]);
   if (!isAdmin) return null;
   return (
-    <div className="min-h-screen flex flex-col gap-4 w-screen bg-indigo-800/5">
+    <div className="min-h-screen overflow-x-hidden flex flex-col gap-4 w-screen bg-indigo-800/5">
       <Header />
       <DashboardStats />
       <AdminTabs />

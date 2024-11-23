@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import "./index.css";
+import { Toaster } from "react-hot-toast";
 
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
@@ -32,9 +33,10 @@ if (!rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
-          <AuthProvider>
-            <RouterProvider router={router} />
-          </AuthProvider>
+        <AuthProvider>
+          <RouterProvider router={router} />
+          <Toaster position="top-center" reverseOrder={false} />
+        </AuthProvider>
       </ClerkProvider>
     </StrictMode>
   );

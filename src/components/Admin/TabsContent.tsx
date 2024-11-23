@@ -6,6 +6,7 @@ import {
   Songs,
   Album,
 } from "../Export";
+import Users from "./Users";
 
 export const TabsContent = () => {
   return (
@@ -14,6 +15,7 @@ export const TabsContent = () => {
         <TabsList>
           <TabsTrigger value="songs">Songs</TabsTrigger>
           <TabsTrigger value="albums">Albums</TabsTrigger>
+          <TabsTrigger value="users">Users</TabsTrigger>
         </TabsList>
 
         <Content value="songs">
@@ -21,6 +23,9 @@ export const TabsContent = () => {
         </Content>
         <Content value="albums">
           <Album />
+        </Content>
+        <Content value="users">
+          <Users />
         </Content>
       </Tabs>
     </div>

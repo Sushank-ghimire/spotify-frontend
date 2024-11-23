@@ -20,4 +20,5 @@ export interface AdminStore {
   fetchAdmin: () => Promise<void>;
   fetchStats: () => Promise<void>;
   fetchAllSongs: () => Promise<void>;
+  addAlbum: () => Promise<void>;
 }

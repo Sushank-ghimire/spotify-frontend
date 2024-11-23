@@ -49,4 +49,14 @@ export const useAdminStore = create<AdminStore>((set) => ({
       set({ isLoading: false });
     }
   },
+  addAlbum: async () => {
+    try {
+    } catch (error) {
+      if (error instanceof Error)
+        set({ error: error.message || "Error while checking admin" });
+      set({ error: error });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
 }));

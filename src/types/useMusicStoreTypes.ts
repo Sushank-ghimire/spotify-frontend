@@ -37,4 +37,6 @@ export interface MusicStore {
   fetchMadeForYouSongs: () => Promise<void>;
   fetchFeaturedSongs: () => Promise<void>;
   fetchTrendingSongs: () => Promise<void>;
+  deleteAlbum: (id: string) => Promise<void>;
+  deleteSong: (id: string) => Promise<void>;
 }
