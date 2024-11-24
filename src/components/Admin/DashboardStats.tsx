@@ -66,7 +66,7 @@ const StatItemLayout = ({ title, stat, Icon, color }: StatItemLayoutProp) => {
       yellow: "text-yellow-600",
     }[color] || "text-gray-600";
   return (
-    <div className="w-full px-3 py-2 rounded-md bg-zinc-900 flex justify-start gap-2 md:gap-3 items-center">
+    <div className="w-full px-3 md:py-4 py-3 rounded-md bg-zinc-900 flex justify-start gap-2 md:gap-3 items-center">
       <Button
         variant="ghost"
         className={cn(

@@ -1,8 +1,18 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 
+export interface User {
+  clerkId: string;
+  createdAt: string;
+  email: string;
+  profileUrl: string;
+  updatedAt: string;
+  userFullName: string;
+  _id: string;
+}
+
 interface ChatStore {
-  users: any[] | null;
+  users: User[] | null;
   getUsers: () => Promise<void>;
   isLoading: boolean;
   error: null | unknown | string;
@@ -16,6 +26,7 @@ export const useChatStore = create<ChatStore>((set) => ({
     try {
       set({ isLoading: true });
       const { data } = await axiosInstance.get("/users/getUsers");
+      console.log("Data : ", data.users);
       set({ users: data.users });
     } catch (error) {
       if (error instanceof Error)

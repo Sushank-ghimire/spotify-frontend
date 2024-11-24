@@ -277,7 +277,15 @@ const AddSongDialogue = () => {
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
-            disabled={isLoading}
+            disabled={
+              isLoading ||
+              !formFiles.audioFile ||
+              !formFiles.imageFile ||
+              !formData.album ||
+              !formData.artist ||
+              !formData.title ||
+              !formData.duration
+            }
             type="submit"
             onClick={handleFormSubmit}
             className="text-white"
