@@ -14,13 +14,5 @@ export default defineConfig(({ mode }: { mode: string }) => {
         "@": path.resolve(__dirname, "./src"),
       },
     },
-    server: {
-      // proxy: {
-      //   "/api/v1": {
-      //     target: env.VITE_SERVER_BACKEND_DOMAIN,
-      //     changeOrigin: true,
-      //   },
-      // },
-    },
   };
 });
