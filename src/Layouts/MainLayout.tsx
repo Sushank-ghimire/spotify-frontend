@@ -26,10 +26,12 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
       <ResizablePanelGroup
         className="h-full flex-1 overflow-hidden p-2"
         direction="horizontal"
+        id={"mainLayout"}
       >
         <AudioPlayer />
         {/* Left Sidebar */}
         <ResizablePanel
+          id="leftSidebar"
           defaultSize={20}
           minSize={isMobile ? 0 : 10}
           maxSize={25}
@@ -40,7 +42,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         <ResizableHandle className="bg-black rounded-lg h-full w-2 transition-colors" />
 
         {/* Main Content */}
-        <ResizablePanel defaultSize={isMobile ? 80 : 60}>
+        <ResizablePanel id="mainContent" defaultSize={isMobile ? 80 : 60}>
           {children}
         </ResizablePanel>
 
@@ -50,6 +52,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
             <ResizableHandle className="bg-black rounded-lg h-full w-2 transition-colors" />
             {/* Right Sidebar */}
             <ResizablePanel
+              id="activityBar"
               defaultSize={20}
               maxSize={25}
               minSize={0}

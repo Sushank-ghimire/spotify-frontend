@@ -58,8 +58,10 @@ import {
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
 import { Input } from "./ui/input";
+import NotFoundPage from "./NotFound";
 
 export {
+  NotFoundPage,
   Select,
   SelectContent,
   SelectGroup,

@@ -1,6 +1,7 @@
 import { Users2 } from "lucide-react";
-import { useChatStore, User } from "../../stores/useChatStore";
+import { useChatStore } from "../../stores/useChatStore";
 import { useEffect } from "react";
+import { User } from "../../types/useMessages.types";
 
 const dummyUsers: User[] = [
   {

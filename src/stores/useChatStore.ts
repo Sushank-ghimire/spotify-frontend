@@ -3,7 +3,7 @@ import { axiosInstance } from "../lib/axios";
 import { ChatStore, MessageTypes } from "../types/useMessages.types";
 import { io } from "socket.io-client";
 
-const baseURL = "http://localhost:3000/api/v1/users";
+const baseURL = "http://localhost:3000";
 
 export const socket = io(baseURL, {
   autoConnect: false,
@@ -14,7 +14,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   isLoading: false,
   users: null,
   error: null,
-  socket: null,
+  socket: socket,
   isConnected: false,
   messages: [],
   onlineUsers: new Set<string>(),
