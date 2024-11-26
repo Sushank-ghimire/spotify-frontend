@@ -20,6 +20,8 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   onlineUsers: new Set<string>(),
   userActivities: new Map<string, string>(),
 
+  selectedUser: null,
+
   getUsers: async () => {
     try {
       set({ isLoading: true });
@@ -91,5 +93,33 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     set({ isConnected: false });
   },
 
-  sendMessage: async (senderId, receiverId, content) => {},
+  sendMessage: async (senderId, receiverId, content) => {
+    const socket = get().socket();
+    if (!socket) return;
+    socket.emit("message", { senderId, receiverId, content });
+  },
+
+  fetchMessages: async (userId) => {
+    try {
+      set({ isLoading: true, error: null });
+      const { data } = await axiosInstance.get(`/users/messages/${userId}`);
+      if (data) {
+        set({ messages: data });
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        set({ error: error.message });
+      }
+      set({ error: error });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  setSelectedUser: (user) => {
+    if (user) {
+      set({ selectedUser: user });
+    }
+    set({ selectedUser: null });
+  },
 }));

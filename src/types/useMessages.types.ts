@@ -34,4 +34,7 @@ export interface ChatStore {
     receiverId: string,
     content: string
   ) => Promise<void>;
+  fetchMessages: (userId: string) => Promise<void>;
+  selectedUser: User | null;
+  setSelectedUser: (user: User | null) => void;
 }
