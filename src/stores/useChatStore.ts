@@ -3,7 +3,8 @@ import { axiosInstance } from "../lib/axios";
 import { ChatStore, MessageTypes } from "../types/useMessages.types";
 import { io } from "socket.io-client";
 
-const baseURL = "http://localhost:3000";
+const baseURL =
+  import.meta.env.MODE === "development" ? "http://localhost:3000" : "/";
 
 export const socket = io(baseURL, {
   autoConnect: false,

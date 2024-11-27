@@ -3,45 +3,6 @@ import { useChatStore } from "../../stores/useChatStore";
 import { useEffect } from "react";
 import { User } from "../../types/useMessages.types";
 
-const dummyUsers: User[] = [
-  {
-    clerkId: "user_2okW0wFURfQBqQPw5TSES3uYzu0",
-    createdAt: "2024-11-15T12:50:00.628Z",
-    email: "ghimire@gmail.com",
-    profileUrl: "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18yb2tXMHpBQkxxbkdybDJ0Y2Q2NE84VHRQakcifQ",
-    updatedAt: "2024-11-15T12:50:00.628Z",
-    userFullName: "Sushank Ghimire",
-    _id: "673743784abb80740d29c091"
-  },
-  {
-    clerkId: "user_3klV5x1FZTj8t7n2RsW9x5u4QyT9",
-    createdAt: "2024-11-14T09:20:15.234Z",
-    email: "janedoe@example.com",
-    profileUrl: "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18zY3ZnN0pTeTlXU05NYzJlSkEyOG5ReTI0Mm9y0s9V24Q",
-    updatedAt: "2024-11-14T09:20:15.234Z",
-    userFullName: "Jane Doe",
-    _id: "983743784abb80740d19c123"
-  },
-  {
-    clerkId: "user_XYZ4sQkL2XZ6Tp1n1Y8L5f7T2D6v",
-    createdAt: "2024-11-12T15:40:00.115Z",
-    email: "alexsmith@example.com",
-    profileUrl: "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18wZXZyM2dlW2VybWxjVUthxld9g8RteOIZ",
-    updatedAt: "2024-11-12T15:40:00.115Z",
-    userFullName: "Alex Smith",
-    _id: "783263847abb007b084f4b212"
-  },
-  {
-    clerkId: "user_HJ2eT9vFgKtrfY7h3Y8b4X6hJ9X8",
-    createdAt: "2024-11-13T11:30:40.507Z",
-    email: "michaelscott@example.com",
-    profileUrl: "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18yaWpOaG9HQYltGtyVmC3DLj7FdfHiZiGau2",
-    updatedAt: "2024-11-13T11:30:40.507Z",
-    userFullName: "Michael Scott",
-    _id: "983746524abb80740d29c093"
-  }
-];
-
 
 const Users = () => {
   const { getUsers, users } = useChatStore();
