@@ -7,7 +7,7 @@ const SignedOutAuthButton = () => {
   const signInWithGoogle = async () => {
     signIn?.authenticateWithRedirect({
       strategy: "oauth_google",
-      redirectUrl: "/sso_google",
+      redirectUrl: "/sso-callback",
       redirectUrlComplete: "/auth-callback",
     });
   };
